@@ -20,6 +20,7 @@ public class MainGame extends JPanel {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
         player = new Player((WIDTH - Player.SIZE) / 2, HEIGHT - HEIGHT / 8);
+        addKeyListener(player);
 
         enemies = new ArrayList<>();
         enemies.add(new Enemy((WIDTH - Enemy.SIZE) / 2, 100, 100)); // generic enemy for testing
@@ -50,6 +51,7 @@ public class MainGame extends JPanel {
     }
 
     public void update() {
+        player.move();
 
         for (Enemy enemy : enemies) {
             enemy.move();

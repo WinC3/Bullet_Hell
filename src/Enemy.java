@@ -14,7 +14,7 @@ public class Enemy extends Entity {
 
     public void draw(Graphics g) {
         g.setColor(Color.RED);
-        g.fillRect(x, y, SIZE, SIZE);
+        g.fillRect((int) x, (int) y, SIZE, SIZE);
     }
 
     public void move() {

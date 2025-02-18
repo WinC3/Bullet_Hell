@@ -5,10 +5,10 @@ import java.util.List;
 public class Entity {
 
     protected int size;
-    protected int x;
-    protected int y;
+    protected double x;
+    protected double y;
     protected int health = 100;
-    protected int speed = 5;
+    protected double speed = 5;
 
     public Entity(int x, int y, int health, int speed, int size) {
         this.x = x;
@@ -45,11 +45,11 @@ public class Entity {
         return health;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 

@@ -12,7 +12,7 @@ class GameWindow extends JFrame {
         super("Game Window");
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -25,6 +25,8 @@ class GameWindow extends JFrame {
             curPanel.repaint();
         });
         timer.start();
+
+        pack();
     }
 
     public static void main(String[] args) {
