@@ -5,7 +5,8 @@ class GameWindow extends JFrame {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 800;
 
-    private JPanel curPanel;
+    private MainGame curPanel;
+    private Timer timer;
 
     public GameWindow() {
         super("Game Window");
@@ -20,6 +21,10 @@ class GameWindow extends JFrame {
         curPanel = new MainGame();
         add(curPanel);
 
+        timer = new Timer(10, e -> { // 100 fps
+            curPanel.repaint();
+        });
+        timer.start();
     }
 
     public static void main(String[] args) {

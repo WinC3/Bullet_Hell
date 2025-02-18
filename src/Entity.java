@@ -40,8 +40,9 @@ public class Entity {
         return health;
     }
 
-    public void takeDamage(int damage) {
+    public int takeDamage(int damage) {
         health -= damage;
+        return health;
     }
 
     public int getX() {
