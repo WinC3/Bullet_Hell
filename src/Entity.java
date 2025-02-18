@@ -1,3 +1,7 @@
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Entity {
 
     protected int size;
@@ -19,8 +23,13 @@ public class Entity {
         y += direction.getY() * speed;
     }
 
-    public void shoot(int speed, int damage, int bulletType) {
+    public List<Bullet> shoot(int speed, int damage, int bulletType) {
         // IMPLEMENT LATERRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+        return new ArrayList<>();
+    }
+
+    public void draw(Graphics g) {
+        // TO BE OVERRIDEN
     }
 
     public void setHealth(int health) {
@@ -41,6 +50,10 @@ public class Entity {
 
     public int getY() {
         return y;
+    }
+
+    public int getSize() {
+        return size;
     }
 
 }

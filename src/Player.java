@@ -1,42 +1,17 @@
-public class Player extends Entity {
-    public static int size = 30; // in pixels
+import java.awt.Graphics;
+import java.awt.Color;
 
-    private int x;
-    private int y;
-    private int health = 100;
-    private int speed = 5;
+public class Player extends Entity {
+    public static final int SIZE = 30; // in pixels
+    private static final int MAX_HEALTH = 100;
+    private static final int INITIAL_SPEED = 5;
 
     public Player(int x, int y) {
-        this.x = x;
-        this.y = y;
+        super(x, y, MAX_HEALTH, INITIAL_SPEED, SIZE);
     }
 
-    public void move(Direction direction) {
-        x += direction.getX() * speed;
-        y += direction.getY() * speed;
-    }
-
-    public void shoot(int speed, int damage, int bulletType) {
-
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void takeDamage(int damage) {
-        health -= damage;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    public void draw(Graphics g) {
+        g.setColor(Color.BLUE);
+        g.fillRect(x, y, SIZE, SIZE);
     }
 }
