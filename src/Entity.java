@@ -32,6 +32,10 @@ public class Entity {
         // TO BE OVERRIDEN
     }
 
+    public void stopUpdates() {
+        // TO BE OVERRIDEN
+    }
+
     public void setHealth(int health) {
         this.health = health;
     }

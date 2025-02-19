@@ -1,6 +1,9 @@
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.event.KeyListener;
+
+import javax.swing.Timer;
+
 import java.awt.event.KeyEvent;
 
 public class Player extends Entity implements KeyListener {
@@ -11,9 +14,16 @@ public class Player extends Entity implements KeyListener {
 
     private boolean keysPressed[] = new boolean[4]; // up, down, left, right
     private Direction direction = Direction.UP;
+    private boolean dead = false;
+
+    private Timer timer;
 
     public Player(int x, int y) {
         super(x, y, MAX_HEALTH, INITIAL_SPEED, SIZE);
+
+        timer = new Timer(20, e -> {
+            // Attack
+        });
     }
 
     public void draw(Graphics g) {
@@ -22,6 +32,9 @@ public class Player extends Entity implements KeyListener {
     }
 
     public void move() {
+        if (dead) {
+            return;
+        }
         if (keysPressed[0] && !keysPressed[1]) {
             if (keysPressed[2] && !keysPressed[3]) {
                 direction = Direction.UP_LEFT;
@@ -104,5 +117,13 @@ public class Player extends Entity implements KeyListener {
             default:
                 break;
         }
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+
+    public void stopUpdates() {
+        timer.stop();
     }
 }

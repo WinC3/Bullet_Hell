@@ -5,7 +5,7 @@ class GameWindow extends JFrame {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 800;
 
-    private MainGame curPanel;
+    private JPanel curPanel;
     private Timer timer;
 
     public GameWindow() {
@@ -18,11 +18,13 @@ class GameWindow extends JFrame {
 
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-        curPanel = new MainGame();
-        add(curPanel);
+        curPanel = new MainGame(this);
+        add(curPanel, BorderLayout.CENTER);
 
         timer = new Timer(10, e -> { // 100 fps
-            curPanel.repaint();
+            SwingUtilities.invokeLater(() -> {
+                curPanel.repaint();
+            });
         });
         timer.start();
 
@@ -32,6 +34,26 @@ class GameWindow extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             GameWindow gameWindow = new GameWindow();
+        });
+    }
+
+    public void showMainGame() {
+        SwingUtilities.invokeLater(() -> {
+            remove(curPanel);
+            curPanel = new MainGame(this);
+            add(curPanel, BorderLayout.CENTER);
+            pack();
+        });
+    }
+
+    public void showGameOverScreen() {
+        SwingUtilities.invokeLater(() -> {
+            ((MainGame) curPanel).stopUpdates();
+            remove(curPanel);
+            curPanel = new GameOverScreen(this);
+            add(curPanel, BorderLayout.CENTER);
+            this.revalidate();
+            pack();
         });
     }
 }

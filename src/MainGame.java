@@ -116,8 +116,9 @@ public class MainGame extends JPanel {
             if (bullet.isColliding(player)) {
                 enemyBullets.remove(i);
                 i--;
-                if (player.takeDamage(bullet.getDamage()) <= 0) { // enemy is dead
-                    GameWindow.showGameOverScreen();
+                if (player.takeDamage(bullet.getDamage()) <= 0) { // player is dead
+                    player.setDead(true);
+                    gameWindow.showGameOverScreen();
                 }
             }
         }
@@ -129,6 +130,19 @@ public class MainGame extends JPanel {
 
     public void addEnemyBullet(Bullet bullet) {
         enemyBullets.add(bullet);
+    }
+
+    public void stopUpdates() {
+        player.stopUpdates();
+
+        for (Enemy enemy : enemies) {
+            enemy.stopUpdates();
+        }
+
+        playerBullets.removeAll(playerBullets);
+        enemyBullets.removeAll(enemyBullets);
+
+        timer.stop();
     }
 
 }

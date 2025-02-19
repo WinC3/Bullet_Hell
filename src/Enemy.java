@@ -13,16 +13,16 @@ public class Enemy extends Entity {
     private int procCounter = 0;
     private Direction direction = Direction.RIGHT;
 
-    Timer timer;
+    private Timer timer;
 
     public Enemy(int x, int y, int health, MainGame mainGame) {
         super(x, y, health, INITIAL_SPEED, SIZE);
         attackPatterns = new ArrayList<>();
         // attackPatterns.add(AttackPattern.NORMAL);
-        attackPatterns.add(AttackPattern.BIGGER);
+        attackPatterns.add(AttackPattern.BIGGER_SUPER);
         // attackPatterns.add(AttackPattern.SUPER);
 
-        timer = new Timer(500, e -> {
+        timer = new Timer(50, e -> {
             for (AttackPattern attackPattern : attackPatterns) {
                 switch (attackPattern) {
                     case AttackPattern.NORMAL:
@@ -55,6 +55,7 @@ public class Enemy extends Entity {
                         break;
                 }
             }
+            System.out.println("test");
             procCounter++;
             procCounter %= 4; // 0, 1, 2, 3
         });
@@ -64,6 +65,9 @@ public class Enemy extends Entity {
     public void draw(Graphics g) {
         g.setColor(Color.RED);
         g.fillRect((int) x, (int) y, SIZE, SIZE);
+
+        g.setColor(Color.WHITE);
+        g.drawRect((int) x, (int) y, SIZE, SIZE);
     }
 
     public void move() {
@@ -78,5 +82,9 @@ public class Enemy extends Entity {
             default:
                 break;
         }
+    }
+
+    public void stopUpdates() {
+        timer.stop();
     }
 }
