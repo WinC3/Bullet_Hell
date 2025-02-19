@@ -39,21 +39,22 @@ class GameWindow extends JFrame {
 
     public void showMainGame() {
         SwingUtilities.invokeLater(() -> {
-            remove(curPanel);
+            this.remove(curPanel);
             curPanel = new MainGame(this);
-            add(curPanel, BorderLayout.CENTER);
-            pack();
+            this.add(curPanel, BorderLayout.CENTER);
+            this.revalidate();
+            this.pack();
         });
     }
 
     public void showGameOverScreen() {
         SwingUtilities.invokeLater(() -> {
             ((MainGame) curPanel).stopUpdates();
-            remove(curPanel);
+            this.remove(curPanel);
             curPanel = new GameOverScreen(this);
-            add(curPanel, BorderLayout.CENTER);
+            this.add(curPanel, BorderLayout.CENTER);
             this.revalidate();
-            pack();
+            this.pack();
         });
     }
 }

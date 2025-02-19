@@ -21,6 +21,8 @@ public class Player extends Entity implements KeyListener {
     public Player(int x, int y) {
         super(x, y, MAX_HEALTH, INITIAL_SPEED, SIZE);
 
+        dead = false;
+
         timer = new Timer(20, e -> {
             // Attack
         });
@@ -81,6 +83,7 @@ public class Player extends Entity implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println("some key");
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 keysPressed[0] = true;
@@ -101,9 +104,11 @@ public class Player extends Entity implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        System.out.println("key relase");
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 keysPressed[0] = false;
+                System.out.println("null");
                 break;
             case KeyEvent.VK_DOWN:
                 keysPressed[1] = false;
@@ -125,5 +130,6 @@ public class Player extends Entity implements KeyListener {
 
     public void stopUpdates() {
         timer.stop();
+
     }
 }

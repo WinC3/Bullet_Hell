@@ -55,7 +55,6 @@ public class Enemy extends Entity {
                         break;
                 }
             }
-            System.out.println("test");
             procCounter++;
             procCounter %= 4; // 0, 1, 2, 3
         });

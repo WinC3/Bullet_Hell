@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -20,11 +22,26 @@ public class MainGame extends JPanel {
         super();
         this.gameWindow = gameWindow;
         setFocusable(true);
-        requestFocus();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
         player = new Player((WIDTH - Player.SIZE) / 2, HEIGHT - HEIGHT / 8);
         addKeyListener(player);
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // handle key press event
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                System.out.println("release generic");
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // handle key typed event
+            }
+        });
 
         enemies = new ArrayList<>();
         enemies.add(new Enemy((WIDTH - Enemy.SIZE) / 2, 100, 100, this)); // generic enemy for testing
@@ -36,6 +53,8 @@ public class MainGame extends JPanel {
             update();
         });
         timer.start();
+
+        SwingUtilities.invokeLater(() -> requestFocusInWindow());
     }
 
     @Override
@@ -141,6 +160,8 @@ public class MainGame extends JPanel {
 
         playerBullets.removeAll(playerBullets);
         enemyBullets.removeAll(enemyBullets);
+
+        this.removeKeyListener(player);
 
         timer.stop();
     }

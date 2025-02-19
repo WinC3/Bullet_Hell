@@ -13,13 +13,14 @@ public class GameOverScreen extends JPanel {
     public GameOverScreen(GameWindow gameWindow) {
         super();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setFocusable(true);
+        requestFocus();
 
         this.gameWindow = gameWindow;
 
         tryAgain = new JButton("Try Again");
         tryAgain.addActionListener(e -> {
             gameWindow.showMainGame();
-            tryAgain.removeAll();
         });
         add(tryAgain);
 
