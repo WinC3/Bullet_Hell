@@ -3,23 +3,36 @@ import java.awt.Color;
 
 public class Bullet {
     public static final int NORMAL_BULLET = 0;
-    public static final int LASER_BULLET = 1;
+    public static final int BIGGER_BULLET = 1;
 
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private Direction direction;
     private int speed = 10;
     private int damage = 10;
     private int length = 10;
     private int width = 5;
 
-    public Bullet(int x, int y, Direction direction, int damage, int length, int width) {
+    public Bullet(double x, double y, Direction direction, int bulletType) {
         this.x = x;
         this.y = y;
         this.direction = direction;
-        this.damage = damage;
-        this.length = length;
-        this.width = width;
+        switch (bulletType) {
+            case NORMAL_BULLET:
+                this.speed = 10;
+                this.damage = 10;
+                this.length = 10;
+                this.width = 3;
+                break;
+            case BIGGER_BULLET:
+                this.speed = 5;
+                this.damage = 20;
+                this.length = 15;
+                this.width = 5;
+                break;
+            default:
+                break;
+        }
     }
 
     public void move() {
@@ -29,7 +42,7 @@ public class Bullet {
 
     public void draw(Graphics g) {
         g.setColor(Color.RED);
-        g.fillRect(x, y, width, length);
+        g.fillRect((int) x, (int) y, width, length);
     }
 
     public int getDamage() {

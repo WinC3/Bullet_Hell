@@ -8,8 +8,9 @@ public class MainGame extends JPanel {
     public static final int HEIGHT = GameWindow.HEIGHT;
 
     private Player player;
+    private List<Bullet> playerBullets;
     private List<Enemy> enemies;
-    private List<Bullet> bullets;
+    private List<Bullet> enemyBullets;
 
     private Timer timer;
 
@@ -23,9 +24,10 @@ public class MainGame extends JPanel {
         addKeyListener(player);
 
         enemies = new ArrayList<>();
-        enemies.add(new Enemy((WIDTH - Enemy.SIZE) / 2, 100, 100)); // generic enemy for testing
+        enemies.add(new Enemy((WIDTH - Enemy.SIZE) / 2, 100, 100, this)); // generic enemy for testing
 
-        bullets = new ArrayList<>();
+        playerBullets = new ArrayList<>();
+        enemyBullets = new ArrayList<>();
 
         timer = new Timer(10, e -> {
             update();
@@ -39,14 +41,18 @@ public class MainGame extends JPanel {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
+        for (Bullet bullet : playerBullets) {
+            bullet.draw(g);
+        }
+
+        for (Bullet bullet : enemyBullets) {
+            bullet.draw(g);
+        }
+
         player.draw(g);
 
         for (Enemy enemy : enemies) {
             enemy.draw(g);
-        }
-
-        for (Bullet bullet : bullets) {
-            bullet.draw(g);
         }
     }
 
@@ -57,24 +63,36 @@ public class MainGame extends JPanel {
             enemy.move();
         }
 
-        for (Bullet bullet : bullets) {
+        for (Bullet bullet : playerBullets) {
             bullet.move();
         }
 
-        for (int i = 0; i < bullets.size(); i++) {
-            Bullet bullet = bullets.get(i);
+        for (Bullet bullet : enemyBullets) {
+            bullet.move();
+        }
+
+        for (int i = 0; i < playerBullets.size(); i++) {
+            Bullet bullet = playerBullets.get(i);
             if (bullet.isOffScreen()) {
-                bullets.remove(i);
+                playerBullets.remove(i);
                 i--;
             }
         }
 
-        for (int i = 0; i < bullets.size(); i++) {
-            Bullet bullet = bullets.get(i);
+        for (int i = 0; i < enemyBullets.size(); i++) {
+            Bullet bullet = enemyBullets.get(i);
+            if (bullet.isOffScreen()) {
+                enemyBullets.remove(i);
+                i--;
+            }
+        }
+
+        for (int i = 0; i < playerBullets.size(); i++) {
+            Bullet bullet = playerBullets.get(i);
             for (int j = 0; j < enemies.size(); j++) {
                 Enemy enemy = enemies.get(j);
                 if (bullet.isColliding(enemy)) {
-                    bullets.remove(i);
+                    playerBullets.remove(i);
                     i--;
                     if (enemy.takeDamage(bullet.getDamage()) <= 0) { // enemy is dead
                         enemies.remove(j);
@@ -83,6 +101,25 @@ public class MainGame extends JPanel {
                 }
             }
         }
+
+        for (int i = 0; i < enemyBullets.size(); i++) {
+            Bullet bullet = enemyBullets.get(i);
+            if (bullet.isColliding(player)) {
+                enemyBullets.remove(i);
+                i--;
+                if (player.takeDamage(bullet.getDamage()) <= 0) { // enemy is dead
+                    System.out.println("Player is dead");
+                }
+            }
+        }
+    }
+
+    public void addPlayerBullet(Bullet bullet) {
+        playerBullets.add(bullet);
+    }
+
+    public void addEnemyBullet(Bullet bullet) {
+        enemyBullets.add(bullet);
     }
 
 }

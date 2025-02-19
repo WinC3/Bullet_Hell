@@ -7,6 +7,7 @@ public class Player extends Entity implements KeyListener {
     public static final int SIZE = 20; // in pixels
     private static final int MAX_HEALTH = 100;
     private static final int INITIAL_SPEED = 5;
+    public static final int PLAYER_MIN_Y = MainGame.HEIGHT / 2;
 
     private boolean keysPressed[] = new boolean[4]; // up, down, left, right
     private Direction direction = Direction.UP;
@@ -53,8 +54,8 @@ public class Player extends Entity implements KeyListener {
         } else if (x > MainGame.WIDTH - SIZE) {
             x = MainGame.WIDTH - SIZE;
         }
-        if (y < 0) {
-            y = 0;
+        if (y < PLAYER_MIN_Y) {
+            y = PLAYER_MIN_Y;
         } else if (y > MainGame.HEIGHT - SIZE) {
             y = MainGame.HEIGHT - SIZE;
         }
