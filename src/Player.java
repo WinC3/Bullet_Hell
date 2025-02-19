@@ -5,8 +5,8 @@ import java.awt.event.KeyEvent;
 
 public class Player extends Entity implements KeyListener {
     public static final int SIZE = 20; // in pixels
-    private static final int MAX_HEALTH = 100;
-    private static final int INITIAL_SPEED = 5;
+    public static final int MAX_HEALTH = 100;
+    public static final int INITIAL_SPEED = 5;
     public static final int PLAYER_MIN_Y = MainGame.HEIGHT / 2;
 
     private boolean keysPressed[] = new boolean[4]; // up, down, left, right

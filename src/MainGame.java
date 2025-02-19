@@ -14,8 +14,11 @@ public class MainGame extends JPanel {
 
     private Timer timer;
 
-    public MainGame() {
+    private GameWindow gameWindow;
+
+    public MainGame(GameWindow gameWindow) {
         super();
+        this.gameWindow = gameWindow;
         setFocusable(true);
         requestFocus();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -54,6 +57,12 @@ public class MainGame extends JPanel {
         for (Enemy enemy : enemies) {
             enemy.draw(g);
         }
+
+        // draw health bar
+        g.setColor(Color.RED);
+        g.fillRect(0, 0, 3, HEIGHT);
+        g.setColor(Color.GREEN);
+        g.fillRect(0, HEIGHT - HEIGHT * player.getHealth() / Player.MAX_HEALTH, 3, HEIGHT);
     }
 
     public void update() {
@@ -108,7 +117,7 @@ public class MainGame extends JPanel {
                 enemyBullets.remove(i);
                 i--;
                 if (player.takeDamage(bullet.getDamage()) <= 0) { // enemy is dead
-                    System.out.println("Player is dead");
+                    GameWindow.showGameOverScreen();
                 }
             }
         }

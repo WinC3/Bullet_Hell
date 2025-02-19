@@ -13,8 +13,6 @@ public class Enemy extends Entity {
     private int procCounter = 0;
     private Direction direction = Direction.RIGHT;
 
-    private MainGame mainGame;
-
     Timer timer;
 
     public Enemy(int x, int y, int health, MainGame mainGame) {
@@ -23,8 +21,6 @@ public class Enemy extends Entity {
         // attackPatterns.add(AttackPattern.NORMAL);
         attackPatterns.add(AttackPattern.BIGGER);
         // attackPatterns.add(AttackPattern.SUPER);
-
-        this.mainGame = mainGame;
 
         timer = new Timer(500, e -> {
             for (AttackPattern attackPattern : attackPatterns) {
