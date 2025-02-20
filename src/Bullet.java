@@ -66,7 +66,8 @@ public class Bullet {
     }
 
     public boolean isColliding(Entity entity) {
-        return x < entity.getX() + entity.getSize() && x + width > entity.getX() && y < entity.getY() + entity.getSize()
+        return x < entity.getX() + entity.getWidth() && x + width > entity.getX()
+                && y < entity.getY() + entity.getLength()
                 && y + length > entity.getY();
     }
 

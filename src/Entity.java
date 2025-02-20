@@ -57,7 +57,11 @@ public class Entity {
         return y;
     }
 
-    public int getSize() {
+    public int getWidth() {
+        return size;
+    }
+
+    public int getLength() {
         return size;
     }
 
