@@ -8,6 +8,8 @@ class GameWindow extends JFrame {
     private JPanel curPanel;
     private Timer timer;
 
+    private int score;
+
     public GameWindow() {
         super("Game Window");
         setSize(WIDTH, HEIGHT);
@@ -49,9 +51,10 @@ class GameWindow extends JFrame {
 
     public void showGameOverScreen() {
         SwingUtilities.invokeLater(() -> {
+            score = ((MainGame) curPanel).getScore();
             ((MainGame) curPanel).stopUpdates();
             this.remove(curPanel);
-            curPanel = new GameOverScreen(this);
+            curPanel = new GameOverScreen(this, score);
             this.add(curPanel, BorderLayout.CENTER);
             this.revalidate();
             this.pack();

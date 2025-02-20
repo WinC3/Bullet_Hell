@@ -173,4 +173,8 @@ public class MainGame extends JPanel {
         executor.shutdown();
     }
 
+    public int getScore() {
+        return score;
+    }
+
 }

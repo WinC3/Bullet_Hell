@@ -5,20 +5,26 @@ public class GameOverScreen extends JPanel {
     public static final int WIDTH = GameWindow.WIDTH;
     public static final int HEIGHT = GameWindow.HEIGHT;
 
+    private int score;
+
     private JButton tryAgain;
     private JButton toLevelSelect;
 
     private GameWindow gameWindow;
 
-    public GameOverScreen(GameWindow gameWindow) {
+    public GameOverScreen(GameWindow gameWindow, int score) {
         super();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFocusable(true);
         requestFocus();
 
+        this.score = score;
         this.gameWindow = gameWindow;
 
+        setLayout(null);
+
         tryAgain = new JButton("Try Again");
+        tryAgain.setBounds(WIDTH / 2 - 75, HEIGHT - 100, 150, 50);
         tryAgain.addActionListener(e -> {
             gameWindow.showMainGame();
         });
@@ -35,6 +41,9 @@ public class GameOverScreen extends JPanel {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 50));
         g.drawString("Game Over", WIDTH / 2 - 150, HEIGHT / 2);
+
+        g.setFont(new Font("Arial", Font.BOLD, 30));
+        g.drawString("Score: " + score, WIDTH / 2 - 150, HEIGHT / 2 + 50);
     }
 
 }
