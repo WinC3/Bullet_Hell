@@ -17,6 +17,9 @@ public class MainGame extends JPanel {
 
     private GameWindow gameWindow;
 
+    private int score = 0;
+    private int enemySpawnTimer = 0;
+
     public MainGame(GameWindow gameWindow) {
         super();
         this.gameWindow = gameWindow;
@@ -27,14 +30,24 @@ public class MainGame extends JPanel {
         addKeyListener(player);
 
         enemies = new ArrayList<>();
-        enemies.add(new Enemy((WIDTH - Enemy.SIZE) / 2, 100, 100, this)); // generic enemy for testing
+        // enemies.add(new Enemy((WIDTH - Enemy.SIZE) / 2, 100, 100, this)); // generic
+        // enemy for testing
 
         playerBullets = new ArrayList<>();
         enemyBullets = new ArrayList<>();
 
         executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(() -> {
-            SwingUtilities.invokeLater(() -> update());
+            SwingUtilities.invokeLater(() -> {
+                update();
+                if (enemySpawnTimer == 0) {
+                    enemies.add(new Enemy((WIDTH - Enemy.SIZE) / 2, (int) (50 + Math.random() * 100), 100, this));
+                    enemySpawnTimer++;
+                }
+                enemySpawnTimer += Math.random() * 3; // expected to add 1 overall; add a little randomness to spawn
+                                                      // intervals
+                enemySpawnTimer %= 5 * 1000 / 10; // average wait to spawn in seconds
+            });
         }, 0, 10, TimeUnit.MILLISECONDS);
 
         SwingUtilities.invokeLater(() -> requestFocusInWindow());
@@ -65,6 +78,11 @@ public class MainGame extends JPanel {
         g.fillRect(0, 0, 3, HEIGHT);
         g.setColor(Color.GREEN);
         g.fillRect(0, HEIGHT - HEIGHT * player.getHealth() / Player.MAX_HEALTH, 3, HEIGHT);
+
+        // draw score
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Score: " + score, WIDTH - 100, 30);
     }
 
     public void update() {
@@ -102,10 +120,15 @@ public class MainGame extends JPanel {
             Bullet bullet = playerBullets.get(i);
             for (int j = 0; j < enemies.size(); j++) {
                 Enemy enemy = enemies.get(j);
+                i = Math.max(0, i);
+                i = Math.min(playerBullets.size(), i);
                 if (bullet.isColliding(enemy)) {
                     playerBullets.remove(i);
                     i--;
+                    j = Math.max(0, j);
+                    j = Math.min(enemies.size(), j);
                     if (enemy.takeDamage(bullet.getDamage()) <= 0) { // enemy is dead
+                        score++;
                         enemy.stopUpdates();
                         enemies.remove(j);
                         j--;
