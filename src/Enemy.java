@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class Enemy extends Entity {
     public static final int SIZE = 30; // in pixels
-    private static final int INITIAL_SPEED = 5;
+    private static final int INITIAL_SPEED = 2;
 
     private MovePattern movePattern = MovePattern.SIDE_TO_SIDE;
     private List<AttackPattern> attackPatterns;
@@ -20,9 +20,7 @@ public class Enemy extends Entity {
     public Enemy(int x, int y, int health, MainGame mainGame) {
         super(x, y, health, INITIAL_SPEED, SIZE);
         attackPatterns = new ArrayList<>();
-        // attackPatterns.add(AttackPattern.NORMAL);
-        attackPatterns.add(AttackPattern.BIGGER_SUPER);
-        // attackPatterns.add(AttackPattern.SUPER);
+        attackPatterns.add(AttackPattern.NORMAL);
 
         executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(() -> {
@@ -66,16 +64,20 @@ public class Enemy extends Entity {
                 }
                 procCounter = (procCounter + 1) % 4; // Cycle 0,1,2,3
             });
-        }, 0, 50, TimeUnit.MILLISECONDS);
+        }, 0, 500, TimeUnit.MILLISECONDS);
 
     }
 
     public void draw(Graphics g) {
         g.setColor(Color.RED);
-        g.fillRect((int) x, (int) y, SIZE, SIZE);
+        g.fillRect((int) x, (int) y, SIZE, SIZE); // enemy
+
+        g.fillRect((int) x, (int) y - 6, SIZE, 3);
+        g.setColor(Color.green);
+        g.fillRect((int) x, (int) y - 6, SIZE * health / 100, 3); // health bar
 
         g.setColor(Color.WHITE);
-        g.drawRect((int) x, (int) y, SIZE, SIZE);
+        g.drawRect((int) x, (int) y, SIZE - 1, SIZE - 1); // enemy outline
     }
 
     public void move() {

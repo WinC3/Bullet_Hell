@@ -4,34 +4,55 @@ import java.awt.event.KeyListener;
 
 import java.awt.event.KeyEvent;
 
+import java.util.*;
 import java.util.concurrent.*;
+
+import javax.swing.SwingUtilities;
 
 public class Player extends Entity implements KeyListener {
     public static final int SIZE = 20; // in pixels
     public static final int MAX_HEALTH = 100;
-    public static final int INITIAL_SPEED = 5;
+    public static final int INITIAL_SPEED = 3;
     public static final int PLAYER_MIN_Y = MainGame.HEIGHT / 2;
 
     private boolean keysPressed[] = new boolean[4]; // up, down, left, right
     private Direction direction = Direction.UP;
     private boolean dead = false;
 
+    private List<AttackPattern> attackPatterns;
+
     private ScheduledExecutorService executor;
 
-    public Player(int x, int y) {
+    public Player(int x, int y, MainGame mainGame) {
         super(x, y, MAX_HEALTH, INITIAL_SPEED, SIZE);
+
+        attackPatterns = new ArrayList<>();
+        attackPatterns.add(AttackPattern.P_NORMAL);
 
         dead = false;
 
         executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(() -> {
-
-        }, 0, 20, TimeUnit.MILLISECONDS);
+            SwingUtilities.invokeLater(() -> {
+                for (AttackPattern attackPattern : new ArrayList<>(attackPatterns)) {
+                    switch (attackPattern) {
+                        case AttackPattern.P_NORMAL:
+                            mainGame.addPlayerBullet(
+                                    new Bullet(this.x + SIZE / 2, this.y, Direction.UP, Bullet.P_NORMAL_BULLET));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+        }, 0, 300, TimeUnit.MILLISECONDS);
     }
 
     public void draw(Graphics g) {
         g.setColor(Color.BLUE);
         g.fillRect((int) x, (int) y, SIZE, SIZE);
+        g.setColor(Color.WHITE);
+        g.drawRect((int) x, (int) y, SIZE - 1, SIZE - 1);
     }
 
     public void move() {
@@ -84,7 +105,6 @@ public class Player extends Entity implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("some key");
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 keysPressed[0] = true;
@@ -105,11 +125,9 @@ public class Player extends Entity implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println("key relase");
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 keysPressed[0] = false;
-                System.out.println("null");
                 break;
             case KeyEvent.VK_DOWN:
                 keysPressed[1] = false;
@@ -131,6 +149,5 @@ public class Player extends Entity implements KeyListener {
 
     public void stopUpdates() {
         executor.shutdown();
-
     }
 }

@@ -23,7 +23,7 @@ public class MainGame extends JPanel {
         setFocusable(true);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
-        player = new Player((WIDTH - Player.SIZE) / 2, HEIGHT - HEIGHT / 8);
+        player = new Player((WIDTH - Player.SIZE) / 2, HEIGHT - HEIGHT / 8, this);
         addKeyListener(player);
 
         enemies = new ArrayList<>();
@@ -47,11 +47,11 @@ public class MainGame extends JPanel {
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         for (Bullet bullet : playerBullets) {
-            bullet.draw(g);
+            bullet.draw(g, Color.BLUE);
         }
 
         for (Bullet bullet : enemyBullets) {
-            bullet.draw(g);
+            bullet.draw(g, Color.RED);
         }
 
         player.draw(g);
@@ -106,6 +106,7 @@ public class MainGame extends JPanel {
                     playerBullets.remove(i);
                     i--;
                     if (enemy.takeDamage(bullet.getDamage()) <= 0) { // enemy is dead
+                        enemy.stopUpdates();
                         enemies.remove(j);
                         j--;
                     }
