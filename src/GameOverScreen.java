@@ -8,6 +8,7 @@ public class GameOverScreen extends JPanel {
     private int score;
 
     private JButton tryAgain;
+    private JButton toMainMenu;
     private JButton toLevelSelect;
 
     private GameWindow gameWindow;
@@ -24,11 +25,18 @@ public class GameOverScreen extends JPanel {
         setLayout(null);
 
         tryAgain = new JButton("Try Again");
-        tryAgain.setBounds(WIDTH / 2 - 75, HEIGHT - 100, 150, 50);
+        tryAgain.setBounds(WIDTH / 2 - 75, HEIGHT - 200, 150, 40);
         tryAgain.addActionListener(e -> {
             gameWindow.showMainGame();
         });
         add(tryAgain);
+
+        toMainMenu = new JButton("Main Menu");
+        toMainMenu.setBounds(WIDTH / 2 - 75, HEIGHT - 100, 150, 40);
+        toMainMenu.addActionListener(e -> {
+            gameWindow.showMainMenu();
+        });
+        add(toMainMenu);
 
     }
 

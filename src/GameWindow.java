@@ -14,13 +14,13 @@ class GameWindow extends JFrame {
         super("Game Window");
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
+        setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
 
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-        curPanel = new MainGame(this);
+        curPanel = new MainMenu(this);
         add(curPanel, BorderLayout.CENTER);
 
         timer = new Timer(10, e -> { // 100 fps
@@ -36,6 +36,16 @@ class GameWindow extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             GameWindow gameWindow = new GameWindow();
+        });
+    }
+
+    public void showMainMenu() {
+        SwingUtilities.invokeLater(() -> {
+            this.remove(curPanel);
+            curPanel = new MainMenu(this);
+            this.add(curPanel, BorderLayout.CENTER);
+            this.revalidate();
+            this.pack();
         });
     }
 
