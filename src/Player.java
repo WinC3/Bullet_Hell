@@ -2,9 +2,9 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.event.KeyListener;
 
-import javax.swing.Timer;
-
 import java.awt.event.KeyEvent;
+
+import java.util.concurrent.*;
 
 public class Player extends Entity implements KeyListener {
     public static final int SIZE = 20; // in pixels
@@ -16,16 +16,17 @@ public class Player extends Entity implements KeyListener {
     private Direction direction = Direction.UP;
     private boolean dead = false;
 
-    private Timer timer;
+    private ScheduledExecutorService executor;
 
     public Player(int x, int y) {
         super(x, y, MAX_HEALTH, INITIAL_SPEED, SIZE);
 
         dead = false;
 
-        timer = new Timer(20, e -> {
-            // Attack
-        });
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(() -> {
+
+        }, 0, 20, TimeUnit.MILLISECONDS);
     }
 
     public void draw(Graphics g) {
@@ -129,7 +130,7 @@ public class Player extends Entity implements KeyListener {
     }
 
     public void stopUpdates() {
-        timer.stop();
+        executor.shutdown();
 
     }
 }

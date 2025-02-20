@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.util.concurrent.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -14,7 +13,7 @@ public class MainGame extends JPanel {
     private List<Enemy> enemies;
     private List<Bullet> enemyBullets;
 
-    private Timer timer;
+    private ScheduledExecutorService executor;
 
     private GameWindow gameWindow;
 
@@ -26,22 +25,6 @@ public class MainGame extends JPanel {
 
         player = new Player((WIDTH - Player.SIZE) / 2, HEIGHT - HEIGHT / 8);
         addKeyListener(player);
-        addKeyListener(new KeyListener() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                // handle key press event
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                System.out.println("release generic");
-            }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                // handle key typed event
-            }
-        });
 
         enemies = new ArrayList<>();
         enemies.add(new Enemy((WIDTH - Enemy.SIZE) / 2, 100, 100, this)); // generic enemy for testing
@@ -49,10 +32,10 @@ public class MainGame extends JPanel {
         playerBullets = new ArrayList<>();
         enemyBullets = new ArrayList<>();
 
-        timer = new Timer(10, e -> {
-            update();
-        });
-        timer.start();
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(() -> {
+            SwingUtilities.invokeLater(() -> update());
+        }, 0, 10, TimeUnit.MILLISECONDS);
 
         SwingUtilities.invokeLater(() -> requestFocusInWindow());
     }
@@ -163,7 +146,7 @@ public class MainGame extends JPanel {
 
         this.removeKeyListener(player);
 
-        timer.stop();
+        executor.shutdown();
     }
 
 }

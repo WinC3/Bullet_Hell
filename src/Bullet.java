@@ -50,8 +50,8 @@ public class Bullet {
     }
 
     public boolean isColliding(Entity entity) {
-        return x < entity.getX() + entity.getSize() && x > entity.getX() && y < entity.getY() + entity.getSize()
-                && y > entity.getY();
+        return x < entity.getX() + entity.getSize() && x + width > entity.getX() && y < entity.getY() + entity.getSize()
+                && y + length > entity.getY();
     }
 
     public boolean isOffScreen() {

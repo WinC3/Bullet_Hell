@@ -1,8 +1,10 @@
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.Timer;
-import java.awt.Color;
+import java.util.concurrent.*;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class Enemy extends Entity {
     public static final int SIZE = 30; // in pixels
@@ -13,7 +15,7 @@ public class Enemy extends Entity {
     private int procCounter = 0;
     private Direction direction = Direction.RIGHT;
 
-    private Timer timer;
+    private ScheduledExecutorService executor;
 
     public Enemy(int x, int y, int health, MainGame mainGame) {
         super(x, y, health, INITIAL_SPEED, SIZE);
@@ -22,43 +24,50 @@ public class Enemy extends Entity {
         attackPatterns.add(AttackPattern.BIGGER_SUPER);
         // attackPatterns.add(AttackPattern.SUPER);
 
-        timer = new Timer(50, e -> {
-            for (AttackPattern attackPattern : attackPatterns) {
-                switch (attackPattern) {
-                    case AttackPattern.NORMAL:
-                        if (procCounter == 0) {
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(() -> {
+            SwingUtilities.invokeLater(() -> {
+                for (AttackPattern attackPattern : new ArrayList<>(attackPatterns)) { // iterate on copy prevent concur
+                                                                                      // mod excep
+                    switch (attackPattern) {
+                        case AttackPattern.NORMAL:
+                            if (procCounter == 0) {
+                                mainGame.addEnemyBullet(
+                                        new Bullet(this.x, this.y, Direction.DOWN, Bullet.NORMAL_BULLET));
+                            }
+                            break;
+                        case AttackPattern.FASTER:
+                            if (procCounter % 2 == 0) {
+                                mainGame.addEnemyBullet(
+                                        new Bullet(this.x, this.y, Direction.DOWN, Bullet.NORMAL_BULLET));
+                            }
+                            break;
+                        case AttackPattern.SUPER:
                             mainGame.addEnemyBullet(new Bullet(this.x, this.y, Direction.DOWN, Bullet.NORMAL_BULLET));
-                        }
-                        break;
-                    case AttackPattern.FASTER:
-                        if (procCounter % 2 == 0) {
-                            mainGame.addEnemyBullet(new Bullet(this.x, this.y, Direction.DOWN, Bullet.NORMAL_BULLET));
-                        }
-                        break;
-                    case AttackPattern.SUPER:
-                        mainGame.addEnemyBullet(new Bullet(this.x, this.y, Direction.DOWN, Bullet.NORMAL_BULLET));
-                        break;
-                    case AttackPattern.BIGGER:
-                        if (procCounter == 0) {
+                            break;
+                        case AttackPattern.BIGGER:
+                            if (procCounter == 0) {
+                                mainGame.addEnemyBullet(
+                                        new Bullet(this.x, this.y, Direction.DOWN, Bullet.BIGGER_BULLET));
+                            }
+                            break;
+                        case AttackPattern.BIGGER_FASTER:
+                            if (procCounter % 2 == 0) {
+                                mainGame.addEnemyBullet(
+                                        new Bullet(this.x, this.y, Direction.DOWN, Bullet.BIGGER_BULLET));
+                            }
+                            break;
+                        case AttackPattern.BIGGER_SUPER:
                             mainGame.addEnemyBullet(new Bullet(this.x, this.y, Direction.DOWN, Bullet.BIGGER_BULLET));
-                        }
-                        break;
-                    case AttackPattern.BIGGER_FASTER:
-                        if (procCounter % 2 == 0) {
-                            mainGame.addEnemyBullet(new Bullet(this.x, this.y, Direction.DOWN, Bullet.BIGGER_BULLET));
-                        }
-                        break;
-                    case AttackPattern.BIGGER_SUPER:
-                        mainGame.addEnemyBullet(new Bullet(this.x, this.y, Direction.DOWN, Bullet.BIGGER_BULLET));
-                        break;
-                    default:
-                        break;
+                            break;
+                        default:
+                            break;
+                    }
                 }
-            }
-            procCounter++;
-            procCounter %= 4; // 0, 1, 2, 3
-        });
-        timer.start();
+                procCounter = (procCounter + 1) % 4; // Cycle 0,1,2,3
+            });
+        }, 0, 50, TimeUnit.MILLISECONDS);
+
     }
 
     public void draw(Graphics g) {
@@ -84,6 +93,6 @@ public class Enemy extends Entity {
     }
 
     public void stopUpdates() {
-        timer.stop();
+        executor.shutdown();
     }
 }
