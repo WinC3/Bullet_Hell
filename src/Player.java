@@ -13,7 +13,7 @@ public class Player extends Entity implements KeyListener {
     public static final int SIZE = 20; // in pixels
     public static final int MAX_HEALTH = 100;
     public static final int INITIAL_SPEED = 3;
-    public static final int PLAYER_MIN_Y = MainGame.HEIGHT / 2;
+    public static final int PLAYER_MIN_Y = MainGame.HEIGHT / 3;
 
     private boolean keysPressed[] = new boolean[4]; // up, down, left, right
     private Direction direction = Direction.UP;
@@ -38,14 +38,15 @@ public class Player extends Entity implements KeyListener {
                     switch (attackPattern) {
                         case AttackPattern.P_NORMAL:
                             mainGame.addPlayerBullet(
-                                    new Bullet(this.x + SIZE / 2, this.y, Direction.UP, Bullet.P_NORMAL_BULLET));
+                                    new Bullet(this.x + SIZE / 2, this.y + SIZE / 2, Direction.UP,
+                                            Bullet.P_NORMAL_BULLET));
                             break;
                         default:
                             break;
                     }
                 }
             });
-        }, 0, 300, TimeUnit.MILLISECONDS);
+        }, 0, 200, TimeUnit.MILLISECONDS);
     }
 
     public void draw(Graphics g) {

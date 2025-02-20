@@ -15,10 +15,7 @@ public class Bullet {
     private int length = 10;
     private int width = 5;
 
-    public Bullet(double x, double y, Direction direction, int bulletType) {
-        this.x = x;
-        this.y = y;
-        this.direction = direction;
+    public Bullet(double entityXMid, double entityYMid, Direction direction, int bulletType) {
         switch (bulletType) {
             case NORMAL_BULLET:
                 this.speed = 2;
@@ -47,6 +44,9 @@ public class Bullet {
             default:
                 break;
         }
+        this.x = entityXMid - this.width; // spawn in middle of entity
+        this.y = entityYMid;
+        this.direction = direction;
     }
 
     public void move() {

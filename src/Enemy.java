@@ -31,32 +31,40 @@ public class Enemy extends Entity {
                         case AttackPattern.NORMAL:
                             if (procCounter == 0) {
                                 mainGame.addEnemyBullet(
-                                        new Bullet(this.x, this.y, Direction.DOWN, Bullet.NORMAL_BULLET));
+                                        new Bullet(this.x + SIZE / 2, this.y + SIZE / 2, Direction.DOWN,
+                                                Bullet.NORMAL_BULLET));
                             }
                             break;
                         case AttackPattern.FASTER:
                             if (procCounter % 2 == 0) {
                                 mainGame.addEnemyBullet(
-                                        new Bullet(this.x, this.y, Direction.DOWN, Bullet.NORMAL_BULLET));
+                                        new Bullet(this.x + SIZE / 2, this.y + SIZE / 2, Direction.DOWN,
+                                                Bullet.NORMAL_BULLET));
                             }
                             break;
                         case AttackPattern.SUPER:
-                            mainGame.addEnemyBullet(new Bullet(this.x, this.y, Direction.DOWN, Bullet.NORMAL_BULLET));
+                            mainGame.addEnemyBullet(
+                                    new Bullet(this.x + SIZE / 2, this.y + SIZE / 2, Direction.DOWN,
+                                            Bullet.NORMAL_BULLET));
                             break;
                         case AttackPattern.BIGGER:
                             if (procCounter == 0) {
                                 mainGame.addEnemyBullet(
-                                        new Bullet(this.x, this.y, Direction.DOWN, Bullet.BIGGER_BULLET));
+                                        new Bullet(this.x + SIZE / 2, this.y + SIZE / 2, Direction.DOWN,
+                                                Bullet.BIGGER_BULLET));
                             }
                             break;
                         case AttackPattern.BIGGER_FASTER:
                             if (procCounter % 2 == 0) {
                                 mainGame.addEnemyBullet(
-                                        new Bullet(this.x, this.y, Direction.DOWN, Bullet.BIGGER_BULLET));
+                                        new Bullet(this.x + SIZE / 2, this.y + SIZE / 2, Direction.DOWN,
+                                                Bullet.BIGGER_BULLET));
                             }
                             break;
                         case AttackPattern.BIGGER_SUPER:
-                            mainGame.addEnemyBullet(new Bullet(this.x, this.y, Direction.DOWN, Bullet.BIGGER_BULLET));
+                            mainGame.addEnemyBullet(
+                                    new Bullet(this.x + SIZE / 2, this.y + SIZE / 2, Direction.DOWN,
+                                            Bullet.BIGGER_BULLET));
                             break;
                         default:
                             break;
