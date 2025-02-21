@@ -11,7 +11,7 @@ public class GameOverScreen extends JPanel {
     private JButton toMainMenu;
     private JButton toLevelSelect;
 
-    private EndlessScores EndlessScores;
+    private EndlessScores endlessScores;
 
     private GameWindow gameWindow;
 
@@ -23,6 +23,8 @@ public class GameOverScreen extends JPanel {
 
         this.score = score;
         this.gameWindow = gameWindow;
+        this.endlessScores = new EndlessScores();
+        endlessScores.addScore(score);
 
         setLayout(null);
 
@@ -50,10 +52,21 @@ public class GameOverScreen extends JPanel {
 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 50));
-        g.drawString("Game Over", WIDTH / 2 - 150, HEIGHT / 2);
+        g.drawString("Game Over", WIDTH / 2 - 150, 200);
 
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        g.drawString("Score: " + score, WIDTH / 2 - 150, HEIGHT / 2 + 50);
+        g.drawString("Score: " + score, WIDTH / 2 - 150, 200 + 50);
+
+        // draw high scores
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("High Scores:", WIDTH / 2 - 150, 250 + 30);
+        g.drawString("Date | Time | Score", WIDTH / 2 - 150, 280 + 30);
+        String[] dates = endlessScores.getDates();
+        String[] times = endlessScores.getTimes();
+        int[] scores = endlessScores.getScores();
+        for (int i = 0; i < dates.length; i++) {
+            g.drawString(dates[i] + " " + times[i] + " " + scores[i], WIDTH / 2 - 150, 340 + i * 30);
+        }
     }
 
 }

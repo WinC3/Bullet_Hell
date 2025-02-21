@@ -3,13 +3,15 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.IntStream;
 
 public class EndlessScores {
-    private final int MAX_SCORES = 5;
-    private final String filePath = "Endless_HighScores.csv";
+    private final int MAX_SCORES = 7;
+    private final String filePath = "src/Endless_HighScores.csv";
 
     private String[] dates;
     private String[] times;
@@ -20,6 +22,46 @@ public class EndlessScores {
         times = new String[MAX_SCORES];
         scores = new int[MAX_SCORES];
 
+        readScores();
+        writeScores();
+    }
+
+    public static void main(String[] args) {
+        EndlessScores e = new EndlessScores();
+        e.sortScores();
+        e.addScore(50);
+    }
+
+    private void sortScores() {
+        int[] prevInds = IntStream.range(0, scores.length)
+                .boxed()
+                .sorted((i, j) -> Integer.compare(scores[j], scores[i]))
+                .mapToInt(i -> i)
+                .toArray(); // previous indices of sorted array
+        int[] scoresCpy = scores.clone();
+        String[] datesCpy = dates.clone();
+        String[] timesCpy = times.clone();
+        for (int i = 0; i < MAX_SCORES; i++) {
+            scores[i] = scoresCpy[prevInds[i]];
+            dates[i] = datesCpy[prevInds[i]];
+            times[i] = timesCpy[prevInds[i]];
+        }
+        writeScores();
+    }
+
+    public void addScore(int score) {
+        if (score >= scores[MAX_SCORES - 1]) {
+            scores[MAX_SCORES - 1] = score;
+            LocalDate date = LocalDate.now();
+            LocalTime time = LocalTime.now();
+            dates[MAX_SCORES - 1] = date.toString();
+            times[MAX_SCORES - 1] = time.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        }
+        sortScores();
+        writeScores();
+    }
+
+    private void readScores() {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) { // try with resources
             String line;
             reader.readLine(); // skip header
@@ -41,7 +83,9 @@ public class EndlessScores {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    private void writeScores() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) { // try with resources
             writer.write("dates,times,scores\n"); // header line
             for (int i = 0; i < MAX_SCORES; i++) {
@@ -50,11 +94,18 @@ public class EndlessScores {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    public static void main(String[] args) {
-        new EndlessScores();
+    public String[] getDates() {
+        return dates;
+    }
+
+    public String[] getTimes() {
+        return times;
+    }
+
+    public int[] getScores() {
+        return scores;
     }
 
 }
