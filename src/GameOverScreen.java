@@ -11,6 +11,8 @@ public class GameOverScreen extends JPanel {
     private JButton toMainMenu;
     private JButton toLevelSelect;
 
+    private EndlessScores EndlessScores;
+
     private GameWindow gameWindow;
 
     public GameOverScreen(GameWindow gameWindow, int score) {
