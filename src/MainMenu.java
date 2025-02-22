@@ -5,15 +5,12 @@ public class MainMenu extends JPanel {
     public static final int WIDTH = GameWindow.WIDTH;
     public static final int HEIGHT = GameWindow.HEIGHT;
 
-    private GameWindow gameWindow;
-
     private JButton levelSelect;
     private JButton endless;
     private JButton settings;
 
     public MainMenu(GameWindow gameWindow) {
         super();
-        this.gameWindow = gameWindow;
         setVisible(true);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFocusable(true);

@@ -41,8 +41,9 @@ public class MainGame extends JPanel {
             SwingUtilities.invokeLater(() -> {
                 update();
                 if (enemySpawnTimer == 0) {
-                    enemies.add(new UFOEnemy((WIDTH - Enemy.SIZE) / 2, (int) (100 + Math.random() * 100), 100, this,
-                            AttackPattern.BIGGER_SUPER));
+                    enemies.add(
+                            new TeleportingEnemy((WIDTH - Enemy.SIZE) / 2, (int) (100 + Math.random() * 100), 100, this,
+                                    AttackPattern.BIGGER_SUPER));
                     enemySpawnTimer++;
                 }
                 enemySpawnTimer += Math.random() * 3; // expected to add 1 overall; add a little randomness to spawn

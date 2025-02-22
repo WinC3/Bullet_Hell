@@ -35,7 +35,7 @@ class GameWindow extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            GameWindow gameWindow = new GameWindow();
+            new GameWindow();
         });
     }
 

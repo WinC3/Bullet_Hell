@@ -13,8 +13,6 @@ public class GameOverScreen extends JPanel {
 
     private EndlessScores endlessScores;
 
-    private GameWindow gameWindow;
-
     public GameOverScreen(GameWindow gameWindow, int score) {
         super();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -22,7 +20,6 @@ public class GameOverScreen extends JPanel {
         requestFocus();
 
         this.score = score;
-        this.gameWindow = gameWindow;
         this.endlessScores = new EndlessScores();
         endlessScores.addScore(score);
 

@@ -8,15 +8,11 @@ public class Settings extends JPanel {
     private JButton deleteEndlessScores;
     private JButton toMainMenu;
 
-    private GameWindow gameWindow;
-
     public Settings(GameWindow gameWindow) {
         super();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setVisible(true);
         setFocusable(true);
-
-        this.gameWindow = gameWindow;
 
         setLayout(null);
 
