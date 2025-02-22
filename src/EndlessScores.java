@@ -4,7 +4,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.IntStream;
@@ -55,7 +54,7 @@ public class EndlessScores {
             LocalDate date = LocalDate.now();
             LocalTime time = LocalTime.now();
             dates[MAX_SCORES - 1] = date.toString();
-            times[MAX_SCORES - 1] = time.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            times[MAX_SCORES - 1] = time.format(DateTimeFormatter.ofPattern("HH:mm:ss")); // remove nano time
         }
         sortScores();
         writeScores();
@@ -94,6 +93,13 @@ public class EndlessScores {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void deleteScores() {
+        dates = new String[MAX_SCORES];
+        times = new String[MAX_SCORES];
+        scores = new int[MAX_SCORES];
+        writeScores();
     }
 
     public String[] getDates() {

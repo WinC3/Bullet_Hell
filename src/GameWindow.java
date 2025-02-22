@@ -59,6 +59,16 @@ class GameWindow extends JFrame {
         });
     }
 
+    public void showSettings() {
+        SwingUtilities.invokeLater(() -> {
+            this.remove(curPanel);
+            curPanel = new Settings(this);
+            this.add(curPanel, BorderLayout.CENTER);
+            this.revalidate();
+            this.pack();
+        });
+    }
+
     public void showGameOverScreen() {
         SwingUtilities.invokeLater(() -> {
             score = ((MainGame) curPanel).getScore();

@@ -9,6 +9,7 @@ public class MainMenu extends JPanel {
 
     private JButton levelSelect;
     private JButton endless;
+    private JButton settings;
 
     public MainMenu(GameWindow gameWindow) {
         super();
@@ -24,6 +25,13 @@ public class MainMenu extends JPanel {
             gameWindow.showMainGame();
         });
         add(endless);
+
+        settings = new JButton("Settings");
+        settings.setBounds(WIDTH / 2 - 75, HEIGHT / 2 + 50, 150, 40);
+        settings.addActionListener(e -> {
+            gameWindow.showSettings();
+        });
+        add(settings);
     }
 
     @Override
