@@ -110,6 +110,9 @@ public class MainGame extends JPanel {
                         score++;
                         enemy.stopUpdates();
                         enemies.remove(j);
+                        if (enemies.size() == 0) {
+                            nextAction();
+                        }
                         j--;
                     }
                 }
@@ -127,6 +130,10 @@ public class MainGame extends JPanel {
                 }
             }
         }
+    }
+
+    protected void nextAction() {
+        // override
     }
 
     public void addPlayerBullet(Bullet bullet) {

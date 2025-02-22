@@ -50,11 +50,15 @@ public class EndlessScores {
 
     public void addScore(int score) {
         if (score >= scores[MAX_SCORES - 1]) {
-            scores[MAX_SCORES - 1] = score;
+            scores[MAX_SCORES - 1] = scores[0];
+            dates[MAX_SCORES - 1] = dates[0];
+            times[MAX_SCORES - 1] = times[0];
+
+            scores[0] = score;
             LocalDate date = LocalDate.now();
             LocalTime time = LocalTime.now();
-            dates[MAX_SCORES - 1] = date.toString();
-            times[MAX_SCORES - 1] = time.format(DateTimeFormatter.ofPattern("HH:mm:ss")); // remove nano time
+            dates[0] = date.toString();
+            times[0] = time.format(DateTimeFormatter.ofPattern("HH:mm:ss")); // remove nano time
         }
         sortScores();
         writeScores();

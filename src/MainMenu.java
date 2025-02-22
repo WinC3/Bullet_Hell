@@ -16,6 +16,7 @@ public class MainMenu extends JPanel {
         setFocusable(true);
 
         setLayout(null);
+
         endless = new JButton("Endless");
         endless.setBounds(WIDTH / 2 - 75, HEIGHT / 2, 150, 40);
         endless.addActionListener(e -> {
