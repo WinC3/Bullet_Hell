@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.concurrent.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -8,17 +7,13 @@ public class MainGame extends JPanel {
     public static final int WIDTH = GameWindow.WIDTH;
     public static final int HEIGHT = GameWindow.HEIGHT;
 
-    private Player player;
-    private List<Bullet> playerBullets;
-    private List<Enemy> enemies;
-    private List<Bullet> enemyBullets;
-
-    private ScheduledExecutorService executor;
+    protected Player player;
+    protected List<Bullet> playerBullets;
+    protected List<Enemy> enemies;
+    protected List<Bullet> enemyBullets;
+    protected int score = 0;
 
     private GameWindow gameWindow;
-
-    private int score = 0;
-    private int enemySpawnTimer = 0;
 
     public MainGame(GameWindow gameWindow) {
         super();
@@ -30,27 +25,9 @@ public class MainGame extends JPanel {
         addKeyListener(player);
 
         enemies = new ArrayList<>();
-        // enemies.add(new Enemy((WIDTH - Enemy.SIZE) / 2, 100, 100, this)); // generic
-        // enemy for testing
 
         playerBullets = new ArrayList<>();
         enemyBullets = new ArrayList<>();
-
-        executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(() -> {
-            SwingUtilities.invokeLater(() -> {
-                update();
-                if (enemySpawnTimer == 0) {
-                    enemies.add(
-                            new TeleportingEnemy((WIDTH - Enemy.SIZE) / 2, (int) (100 + Math.random() * 100), 100, this,
-                                    AttackPattern.BIGGER_SUPER));
-                    enemySpawnTimer++;
-                }
-                enemySpawnTimer += Math.random() * 3; // expected to add 1 overall; add a little randomness to spawn
-                                                      // intervals
-                enemySpawnTimer %= 5 * 1000 / 10; // average wait to spawn in seconds
-            });
-        }, 0, 10, TimeUnit.MILLISECONDS);
 
         SwingUtilities.invokeLater(() -> requestFocusInWindow());
     }
@@ -146,7 +123,7 @@ public class MainGame extends JPanel {
                 i--;
                 if (player.takeDamage(bullet.getDamage()) <= 0) { // player is dead
                     player.setDead(true);
-                    gameWindow.showGameOverScreen();
+                    gameWindow.showGameOverScreen(this);
                 }
             }
         }
@@ -171,8 +148,6 @@ public class MainGame extends JPanel {
         enemyBullets.removeAll(enemyBullets);
 
         this.removeKeyListener(player);
-
-        executor.shutdown();
     }
 
     public int getScore() {

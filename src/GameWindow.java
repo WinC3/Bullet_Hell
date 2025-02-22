@@ -49,10 +49,10 @@ class GameWindow extends JFrame {
         });
     }
 
-    public void showMainGame() {
+    public void showEndlessGame() {
         SwingUtilities.invokeLater(() -> {
             this.remove(curPanel);
-            curPanel = new MainGame(this);
+            curPanel = new EndlessGame(this);
             this.add(curPanel, BorderLayout.CENTER);
             this.revalidate();
             this.pack();
@@ -69,12 +69,16 @@ class GameWindow extends JFrame {
         });
     }
 
-    public void showGameOverScreen() {
+    public void showGameOverScreen(MainGame mainGame) {
         SwingUtilities.invokeLater(() -> {
             score = ((MainGame) curPanel).getScore();
             ((MainGame) curPanel).stopUpdates();
             this.remove(curPanel);
-            curPanel = new GameOverScreen(this, score);
+            if (mainGame instanceof EndlessGame) {
+                curPanel = new EndlessGameOverScreen(this, score);
+            } else if (mainGame instanceof MainGame) {
+                curPanel = new GameOverScreen(this, score);
+            }
             this.add(curPanel, BorderLayout.CENTER);
             this.revalidate();
             this.pack();
