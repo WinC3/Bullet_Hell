@@ -25,11 +25,11 @@ public class EndlessScores {
         writeScores();
     }
 
-    public static void main(String[] args) {
-        EndlessScores e = new EndlessScores();
-        e.sortScores();
-        e.addScore(50);
-    }
+    // public static void main(String[] args) {
+    // EndlessScores e = new EndlessScores();
+    // e.sortScores();
+    // e.addScore(50);
+    // }
 
     private void sortScores() {
         int[] prevInds = IntStream.range(0, scores.length)

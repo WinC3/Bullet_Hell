@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.concurrent.*;
 
 public class EndlessGame extends MainGame {
@@ -34,6 +35,15 @@ public class EndlessGame extends MainGame {
         }, 0, 10, TimeUnit.MILLISECONDS);
 
         SwingUtilities.invokeLater(() -> requestFocusInWindow());
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.PLAIN, 10));
+        g.drawString("Average Spawn Interval: " + avgTimeBetweenSpawns, 10, HEIGHT - 10);
     }
 
     private void spawnRandomEnemy() {

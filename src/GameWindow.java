@@ -49,6 +49,16 @@ class GameWindow extends JFrame {
         });
     }
 
+    public void showLevelSelect() {
+        SwingUtilities.invokeLater(() -> {
+            this.remove(curPanel);
+            curPanel = new LevelSelect(this);
+            this.add(curPanel, BorderLayout.CENTER);
+            this.revalidate();
+            this.pack();
+        });
+    }
+
     public void showEndlessGame() {
         SwingUtilities.invokeLater(() -> {
             this.remove(curPanel);

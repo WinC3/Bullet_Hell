@@ -17,6 +17,13 @@ public class MainMenu extends JPanel {
 
         setLayout(null);
 
+        levelSelect = new JButton("Level Select");
+        levelSelect.setBounds(WIDTH / 2 - 75, HEIGHT / 2 - 50, 150, 40);
+        levelSelect.addActionListener(e -> {
+            gameWindow.showLevelSelect();
+        });
+        add(levelSelect);
+
         endless = new JButton("Endless");
         endless.setBounds(WIDTH / 2 - 75, HEIGHT / 2, 150, 40);
         endless.addActionListener(e -> {
